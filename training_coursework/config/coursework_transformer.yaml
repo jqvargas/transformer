@@ -1,0 +1,40 @@
+base: &base
+
+  # Model config
+  embed_dim: 384
+  depth: 6
+  dropout: 0.0
+  patch_size: 8
+  num_heads: 8
+
+  # Training config
+  img_size: [360, 720]
+  dt: 1 
+  global_batch_size: 16 # samples/training batch
+  num_iters: 30000
+  expdir: 'logs'
+  lr_schedule: 'cosine'
+  lr: 5E-4
+  warmup: 0
+  optimizer: 'Adam'
+
+  # Data
+  data_loader_config: 'pytorch'
+  num_data_workers: 0 
+  n_in_channels: 20
+  n_out_channels: 20
+  train_data_path:   '/scratch/space1/z04/adrianj/mlatscale_coursework/train'
+  valid_data_path:   '/scratch/space1/z04/adrianj/mlatscale_coursework/valid'
+  inf_data_path:     '/scratch/space1/z04/adrianj/mlatscale_coursework/test'
+  time_means_path:   '/scratch/space1/z04/adrianj/mlatscale_coursework/stats/time_means.npy'
+  global_means_path: '/scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_means.npy'
+  global_stds_path:  '/scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_stds.npy'
+  limit_nsamples: None
+  limit_nsamples_val: None
+
+# This short configuraton has a smaller number of iterations and samples to reduce the runtime
+short: &short_ls
+  <<: *base
+  limit_nsamples: 512
+  limit_nsamples_val: 128
+  num_iters: 128
