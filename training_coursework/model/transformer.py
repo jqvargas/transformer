@@ -96,7 +96,6 @@ class Block(nn.Module):
 
 
 class PatchEmbed(nn.Module):
-class PatchEmbed(nn.Module):
     """ Embedding Patch for Images    
     """
     def __init__(self, img_size=[224,224], patch_size=16, in_chans=3, embed_dim=768):
