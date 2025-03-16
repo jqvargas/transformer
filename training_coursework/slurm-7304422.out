@@ -1,0 +1,134 @@
+Loading python/3.10.8-gpu
+  Loading requirement: nvidia/nvhpc-nompi/22.2 gcc/10.2.0
+    openmpi/4.1.6-cuda-11.6
+2025-03-16 19:31:00,642 - matplotlib - WARNING - Matplotlib created a temporary cache directory at /dev/shm/mdisspt-s2266011_7304422/matplotlib-a8g5b0qc because the default path (/home/mdisspt/mdisspt/mdisspt-s2266011/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+2025-03-16 19:31:01,704 - matplotlib.font_manager - INFO - generated new fontManager
+2025-03-16 19:31:02,100 - root - INFO - ------------------ Configuration ------------------
+2025-03-16 19:31:02,108 - root - INFO - Configuration file: /mnt/lustre/e1000/home/mdisspt/mdisspt/mdisspt-s2266011/transformer/training_coursework/config/coursework_transformer.yaml
+2025-03-16 19:31:02,108 - root - INFO - Configuration name: short
+2025-03-16 19:31:02,108 - root - INFO - limit_nsamples 512
+2025-03-16 19:31:02,108 - root - INFO - limit_nsamples_val 128
+2025-03-16 19:31:02,108 - root - INFO - num_iters 128
+2025-03-16 19:31:02,108 - root - INFO - embed_dim 384
+2025-03-16 19:31:02,108 - root - INFO - depth 6
+2025-03-16 19:31:02,108 - root - INFO - dropout 0.0
+2025-03-16 19:31:02,108 - root - INFO - patch_size 8
+2025-03-16 19:31:02,108 - root - INFO - num_heads 8
+2025-03-16 19:31:02,108 - root - INFO - img_size [360, 720]
+2025-03-16 19:31:02,109 - root - INFO - dt 1
+2025-03-16 19:31:02,109 - root - INFO - global_batch_size 16
+2025-03-16 19:31:02,109 - root - INFO - expdir logs
+2025-03-16 19:31:02,109 - root - INFO - lr_schedule cosine
+2025-03-16 19:31:02,109 - root - INFO - lr 0.0005
+2025-03-16 19:31:02,109 - root - INFO - warmup 0
+2025-03-16 19:31:02,109 - root - INFO - optimizer Adam
+2025-03-16 19:31:02,109 - root - INFO - data_loader_config pytorch
+2025-03-16 19:31:02,109 - root - INFO - num_data_workers 0
+2025-03-16 19:31:02,109 - root - INFO - n_in_channels 20
+2025-03-16 19:31:02,109 - root - INFO - n_out_channels 20
+2025-03-16 19:31:02,109 - root - INFO - train_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/train
+2025-03-16 19:31:02,109 - root - INFO - valid_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/valid
+2025-03-16 19:31:02,109 - root - INFO - inf_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/test
+2025-03-16 19:31:02,109 - root - INFO - time_means_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/time_means.npy
+2025-03-16 19:31:02,109 - root - INFO - global_means_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_means.npy
+2025-03-16 19:31:02,109 - root - INFO - global_stds_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_stds.npy
+2025-03-16 19:31:02,109 - root - INFO - ---------------------------------------------------
+2025-03-16 19:31:02,540 - root - INFO - begin data loader initialisation
+2025-03-16 19:31:02,724 - root - INFO - Getting file stats from /scratch/space1/z04/adrianj/mlatscale_coursework/train/1990.h5
+2025-03-16 19:31:02,725 - root - INFO - Overriding total number of samples to: 512
+2025-03-16 19:31:02,725 - root - INFO - Number of samples per year: 1460
+2025-03-16 19:31:02,725 - root - INFO - Found data at path /scratch/space1/z04/adrianj/mlatscale_coursework/train. Number of examples: 512. Image Shape: 360 x 720 x 20
+2025-03-16 19:31:02,728 - root - INFO - Getting file stats from /scratch/space1/z04/adrianj/mlatscale_coursework/valid/2016.h5
+2025-03-16 19:31:02,729 - root - INFO - Overriding total number of samples to: 128
+2025-03-16 19:31:02,729 - root - INFO - Number of samples per year: 1460
+2025-03-16 19:31:02,729 - root - INFO - Found data at path /scratch/space1/z04/adrianj/mlatscale_coursework/valid. Number of examples: 128. Image Shape: 360 x 720 x 20
+2025-03-16 19:31:02,729 - root - INFO - data loader initialised
+2025-03-16 19:31:04,781 - root - INFO - VisionTransformer(
+  (patch_embed): PatchEmbed(
+    (proj): Conv2d(20, 384, kernel_size=(8, 8), stride=(8, 8))
+  )
+  (pos_drop): Dropout(p=0.0, inplace=False)
+  (blocks): ModuleList(
+    (0-5): 6 x Block(
+      (attn): Attention(
+        (qkv): Linear(in_features=384, out_features=1152, bias=True)
+        (q_norm): Identity()
+        (k_norm): Identity()
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=384, out_features=384, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): Identity()
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (norm2): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (mlp): MLP(
+        (fc1): Linear(in_features=384, out_features=1536, bias=True)
+        (act): GELU(approximate='none')
+        (fc2): Linear(in_features=1536, out_features=384, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+  )
+  (norm): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+  (head): Linear(in_features=384, out_features=1280, bias=False)
+)
+2025-03-16 19:31:04,782 - root - INFO - Beginning Training Loop...
+2025-03-16 19:31:06,025 - root - INFO - number of epochs: 4(128,32)
+2025-03-16 19:32:07,288 - root - INFO - Time taken for epoch 1 is 61.210040 sec, avg 8.626036 samples/sec
+2025-03-16 19:32:07,288 - root - INFO -   Avg train loss=0.087262
+2025-03-16 19:32:16,141 - root - INFO -   Avg val loss=0.4396672546863556
+2025-03-16 19:32:16,141 - root - INFO -   Total validation time: 7.751534700393677 sec
+2025-03-16 19:32:16,147 - root - INFO - Time taken for epoch 2 is 0.000452 sec, avg 0.000000 samples/sec
+/work/y07/shared/cirrus-software/miniconda3/22.11.1-1-py310-gpu/lib/python3.10/site-packages/numpy/core/fromnumeric.py:3464: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/work/y07/shared/cirrus-software/miniconda3/22.11.1-1-py310-gpu/lib/python3.10/site-packages/numpy/core/_methods.py:192: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+2025-03-16 19:32:16,177 - root - INFO -   Avg train loss=nan
+2025-03-16 19:32:22,670 - root - INFO -   Avg val loss=0.439667284488678
+2025-03-16 19:32:22,670 - root - INFO -   Total validation time: 5.40636682510376 sec
+2025-03-16 19:32:22,676 - root - INFO - Time taken for epoch 3 is 0.000441 sec, avg 0.000000 samples/sec
+2025-03-16 19:32:22,676 - root - INFO -   Avg train loss=nan
+2025-03-16 19:32:29,111 - root - INFO -   Avg val loss=0.43966734409332275
+2025-03-16 19:32:29,111 - root - INFO -   Total validation time: 5.384394884109497 sec
+2025-03-16 19:32:29,117 - root - INFO - Time taken for epoch 4 is 0.000469 sec, avg 0.000000 samples/sec
+2025-03-16 19:32:29,117 - root - INFO -   Avg train loss=nan
+2025-03-16 19:32:35,628 - root - INFO -   Avg val loss=0.43966731429100037
+2025-03-16 19:32:35,629 - root - INFO -   Total validation time: 5.434313535690308 sec
+2025-03-16 19:32:35,636 - root - INFO - Finished
+Generating '/dev/shm/mdisspt-s2266011_7304422/nsys-report-0813.qdstrm'
+[1/1] [0%                          ] transformer_profile.nsys-rep[1/1] [0%                          ] transformer_profile.nsys-rep[1/1] [5%                          ] transformer_profile.nsys-rep[1/1] [=15%                        ] transformer_profile.nsys-rep[1/1] [==19%                       ] transformer_profile.nsys-rep[1/1] [===22%                      ] transformer_profile.nsys-rep[1/1] [===24%                      ] transformer_profile.nsys-rep[1/1] [====27%                     ] transformer_profile.nsys-rep[1/1] [=====30%                    ] transformer_profile.nsys-rep[1/1] [======34%                   ] transformer_profile.nsys-rep[1/1] [=======37%                  ] transformer_profile.nsys-rep[1/1] [========40%                 ] transformer_profile.nsys-rep[1/1] [========41%                 ] transformer_profile.nsys-rep[1/1] [========42%                 ] transformer_profile.nsys-rep[1/1] [=========43%                ] transformer_profile.nsys-rep[1/1] [=========44%                ] transformer_profile.nsys-rep[1/1] [=========45%                ] transformer_profile.nsys-rep[1/1] [=========46%                ] transformer_profile.nsys-rep[1/1] [==========47%               ] transformer_profile.nsys-rep[1/1] [==========48%               ] transformer_profile.nsys-rep[1/1] [==========49%               ] transformer_profile.nsys-rep[1/1] [===========51%              ] transformer_profile.nsys-rep[1/1] [===========52%              ] transformer_profile.nsys-rep[1/1] [===========53%              ] transformer_profile.nsys-rep[1/1] [============54%             ] transformer_profile.nsys-rep[1/1] [============55%             ] transformer_profile.nsys-rep[1/1] [============56%             ] transformer_profile.nsys-rep[1/1] [============57%             ] transformer_profile.nsys-rep[1/1] [=============58%            ] transformer_profile.nsys-rep[1/1] [=============59%            ] transformer_profile.nsys-rep[1/1] [=============60%            ] transformer_profile.nsys-rep[1/1] [==============61%           ] transformer_profile.nsys-rep[1/1] [==============62%           ] transformer_profile.nsys-rep[1/1] [==============63%           ] transformer_profile.nsys-rep[1/1] [==============64%           ] transformer_profile.nsys-rep[1/1] [===============65%          ] transformer_profile.nsys-rep[1/1] [===============66%          ] transformer_profile.nsys-rep[1/1] [===============67%          ] transformer_profile.nsys-rep[1/1] [================68%         ] transformer_profile.nsys-rep[1/1] [================69%         ] transformer_profile.nsys-rep[1/1] [================70%         ] transformer_profile.nsys-rep[1/1] [================71%         ] transformer_profile.nsys-rep[1/1] [=================72%        ] transformer_profile.nsys-rep[1/1] [=================73%        ] transformer_profile.nsys-rep[1/1] [=================74%        ] transformer_profile.nsys-rep[1/1] [==================75%       ] transformer_profile.nsys-rep[1/1] [==================76%       ] transformer_profile.nsys-rep[1/1] [==================77%       ] transformer_profile.nsys-rep[1/1] [==================78%       ] transformer_profile.nsys-rep[1/1] [===================79%      ] transformer_profile.nsys-rep[1/1] [===================80%      ] transformer_profile.nsys-rep[1/1] [===================81%      ] transformer_profile.nsys-rep[1/1] [===================82%      ] transformer_profile.nsys-rep[1/1] [=====================87%    ] transformer_profile.nsys-rep[1/1] [======================91%   ] transformer_profile.nsys-rep
+Importer error status: Importation failed.
+Import Failed with unexpected exception: /dvs/p4/build/sw/devtools/Agora/Rel/QuadD_Main/QuadD/Host/QdstrmImporter/main.cpp(34): Throw in function {anonymous}::Importer::Importer(const boost::filesystem::path&, const boost::filesystem::path&)
+Dynamic exception type: boost::wrapexcept<QuadDCommon::RuntimeException>
+std::exception::what: RuntimeException
+[QuadDCommon::tag_message*] = Status: AnalysisFailed
+Error {
+  Type: RuntimeError
+  SubError {
+    Type: InvalidArgument
+    Props {
+      Items {
+        Type: OriginalExceptionClass
+        Value: "N5boost10wrapexceptIN11QuadDCommon24InvalidArgumentExceptionEEE"
+      }
+      Items {
+        Type: OriginalFile
+        Value: "/dvs/p4/build/sw/devtools/Agora/Rel/QuadD_Main/QuadD/Host/Analysis/Modules/EventCollection.cpp"
+      }
+      Items {
+        Type: OriginalLine
+        Value: "1055"
+      }
+      Items {
+        Type: OriginalFunction
+        Value: "void QuadDAnalysis::EventCollection::CheckOrder(QuadDAnalysis::EventCollectionHelper::EventContainer&, const QuadDAnalysis::ConstEvent&) const"
+      }
+      Items {
+        Type: ErrorText
+        Value: "Wrong event order has been detected when adding events to the collection:\nnew event ={ StartNs=15266225197 StopNs=15266287453 GlobalId=300811960817268 Event={ TraceProcessEvent=[{ Correlation=5788 EventClass=0 TextId=15110 ReturnValue=0 },] } Type=48 }\nlast event ={ StartNs=57255329015 StopNs=57255329615 GlobalId=300811960817268 Event={ TraceProcessEvent=[{ Correlation=155420 EventClass=0 TextId=11710 ReturnValue=600 },] } Type=48 }"
+      }
+    }
+  }
+}
+Generated:
+    /mnt/lustre/e1000/home/mdisspt/mdisspt/mdisspt-s2266011/transformer/training_coursework/transformer_profile.qdstrm
