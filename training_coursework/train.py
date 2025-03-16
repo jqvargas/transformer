@@ -62,19 +62,19 @@ def train(params, args):
 
     logging.info("Beginning Training Loop...")
 
-    # Initialize prefetch buffers
-    prefetch_buffer = [None, None]  # Buffer for next batch
-    current_batch = [None, None]    # Buffer for current batch
-    prev_batch = [None, None]       # Buffer for previous batch
-
-    # Prefetch first batch
-    with torch.cuda.stream(data_stream):
-        try:
-            prefetch_buffer[0], prefetch_buffer[1] = next(iter(train_data_loader))
-            prefetch_buffer[0] = prefetch_buffer[0].to(device, non_blocking=True)
-            prefetch_buffer[1] = prefetch_buffer[1].to(device, non_blocking=True)
-        except StopIteration:
-            prefetch_buffer = [None, None]
+    # log initial loss on train and validation to tensorboard
+    # this does not train the network, just runs it on two data sets to see the current quality
+    with torch.no_grad():
+        inp, tar = map(lambda x: x.to(device), next(iter(train_data_loader)))
+        gen = model(inp)
+        tr_loss = loss_func(gen, tar)
+        inp, tar = map(lambda x: x.to(device), next(iter(val_data_loader)))
+        gen = model(inp)
+        val_loss = loss_func(gen, tar)
+        val_rmse = weighted_rmse(gen, tar)
+        args.tboard_writer.add_scalar('Loss/train', tr_loss.item(), 0)
+        args.tboard_writer.add_scalar('Loss/valid', val_loss.item(), 0)
+        args.tboard_writer.add_scalar('RMSE(u10m)/valid', val_rmse.cpu().numpy()[0], 0)
 
     params.num_epochs = params.num_iters//len(train_data_loader)
     logging.info('number of epochs: '+str(params.num_epochs)+'(' + str(params.num_iters) + ',' + str(len(train_data_loader)) + ')')
@@ -92,70 +92,51 @@ def train(params, args):
         # enabling training mode for the model
         model.train()
         step_count = 0
-        train_iter = iter(train_data_loader)
-
-        while True:
-            # Wait for data prefetch to complete
-            data_stream.synchronize()
-
-            # Check if we have valid data to process
-            if prefetch_buffer[0] is None:
-                break
-
-            # Rotate buffers
-            prev_batch = current_batch
-            current_batch = prefetch_buffer
-            prefetch_buffer = [None, None]
-
-            # Start prefetching next batch
-            with torch.cuda.stream(data_stream):
-                try:
-                    prefetch_buffer[0], prefetch_buffer[1] = next(train_iter)
-                    prefetch_buffer[0] = prefetch_buffer[0].to(device, non_blocking=True)
-                    prefetch_buffer[1] = prefetch_buffer[1].to(device, non_blocking=True)
-                except StopIteration:
-                    prefetch_buffer = [None, None]
-
-            if (epoch == 3 and step_count == 0):
+        for i, data in enumerate(train_data_loader, 0):
+            if (epoch == 3 and i == 0):
                 torch.cuda.profiler.start()
-            if (epoch == 3 and step_count == len(train_data_loader) - 1):
+            if (epoch == 3 and i == len(train_data_loader) - 1):
                 torch.cuda.profiler.stop()
 
-            torch.cuda.nvtx.range_push(f"step {step_count}")
+            torch.cuda.nvtx.range_push(f"step {i}")
             iters += 1
             dat_start = time.time()
-            torch.cuda.nvtx.range_push(f"data copy in {step_count}")
+            torch.cuda.nvtx.range_push(f"data copy in {i}")
 
+            # Use data stream for data transfer
+            with torch.cuda.stream(data_stream):
+                inp, tar = map(lambda x: x.to(device, non_blocking=True), data)
+            torch.cuda.nvtx.range_pop() # copy in
+
+            tr_start = time.time()
+            b_size = inp.size(0)
+            
             # Forward pass in compute stream
             with torch.cuda.stream(compute_stream):
                 compute_stream.wait_stream(data_stream)  # Ensure data is ready
                 optimizer.zero_grad()
                 torch.cuda.nvtx.range_push(f"forward")
-                gen = model(current_batch[0])
-                loss = loss_func(gen, current_batch[1])
+                gen = model(inp)
+                loss = loss_func(gen, tar)
                 torch.cuda.nvtx.range_pop() #forward
 
             # Backward pass in backward stream
             with torch.cuda.stream(backward_stream):
                 backward_stream.wait_stream(compute_stream)  # Wait for forward pass
-                torch.cuda.nvtx.range_push(f"backward")
                 loss.backward()
-                torch.cuda.nvtx.range_pop() #backward
-
-            # Optimizer step in backward stream
-            with torch.cuda.stream(backward_stream):
                 torch.cuda.nvtx.range_push(f"optimizer")
                 optimizer.step()
-                torch.cuda.nvtx.range_pop() #optimizer
+                torch.cuda.nvtx.range_pop() # optimizer
 
             tr_loss.append(loss.item())
-            torch.cuda.nvtx.range_pop() #step
+            torch.cuda.nvtx.range_pop() # step
 
             # lr step
             scheduler.step()
 
             tr_end = time.time()
-            tr_time += tr_end - dat_start
+            tr_time += tr_end - tr_start
+            dat_time += tr_start - dat_start
             step_count += 1
 
         torch.cuda.synchronize() # device sync to ensure accurate epoch timings
@@ -170,11 +151,8 @@ def train(params, args):
         args.tboard_writer.add_scalar('Learning Rate', optimizer.param_groups[0]['lr'], iters)
         args.tboard_writer.add_scalar('Avg iters per sec', iters_per_sec, iters)
         args.tboard_writer.add_scalar('Avg samples per sec', samples_per_sec, iters)
-        
-        # Only generate visualization if we have valid data
-        if current_batch[0] is not None:
-            fig = generate_images([current_batch[0], current_batch[1], gen])
-            args.tboard_writer.add_figure('Visualization, t2m', fig, iters, close=True)
+        fig = generate_images([inp, tar, gen])
+        args.tboard_writer.add_figure('Visualization, t2m', fig, iters, close=True)
 
         # Validation phase
         val_start = time.time()
@@ -186,7 +164,7 @@ def train(params, args):
         with torch.inference_mode():
             with torch.no_grad():
                 for i, data in enumerate(val_data_loader, 0):
-                    inp, tar = map(lambda x: x.to(device, non_blocking=True), data)
+                    inp, tar = map(lambda x: x.to(device), data)
                     gen = model(inp)
                     val_loss += loss_func(gen, tar)
                     val_rmse += weighted_rmse(gen, tar)

@@ -1,0 +1,99 @@
+Loading python/3.10.8-gpu
+  Loading requirement: nvidia/nvhpc-nompi/22.2 gcc/10.2.0
+    openmpi/4.1.6-cuda-11.6
+2025-03-16 20:54:17,251 - matplotlib - WARNING - Matplotlib created a temporary cache directory at /dev/shm/mdisspt-s2266011_7304514/matplotlib-u2_pnq2u because the default path (/home/mdisspt/mdisspt/mdisspt-s2266011/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+2025-03-16 20:54:19,833 - matplotlib.font_manager - INFO - generated new fontManager
+2025-03-16 20:54:21,220 - root - INFO - ------------------ Configuration ------------------
+2025-03-16 20:54:21,232 - root - INFO - Configuration file: /mnt/lustre/e1000/home/mdisspt/mdisspt/mdisspt-s2266011/transformer/training_coursework/config/coursework_transformer.yaml
+2025-03-16 20:54:21,232 - root - INFO - Configuration name: short
+2025-03-16 20:54:21,232 - root - INFO - limit_nsamples 512
+2025-03-16 20:54:21,232 - root - INFO - limit_nsamples_val 128
+2025-03-16 20:54:21,232 - root - INFO - num_iters 128
+2025-03-16 20:54:21,232 - root - INFO - embed_dim 384
+2025-03-16 20:54:21,232 - root - INFO - depth 6
+2025-03-16 20:54:21,232 - root - INFO - dropout 0.0
+2025-03-16 20:54:21,232 - root - INFO - patch_size 8
+2025-03-16 20:54:21,232 - root - INFO - num_heads 8
+2025-03-16 20:54:21,232 - root - INFO - img_size [360, 720]
+2025-03-16 20:54:21,233 - root - INFO - dt 1
+2025-03-16 20:54:21,233 - root - INFO - global_batch_size 16
+2025-03-16 20:54:21,233 - root - INFO - expdir logs
+2025-03-16 20:54:21,233 - root - INFO - lr_schedule cosine
+2025-03-16 20:54:21,233 - root - INFO - lr 0.0005
+2025-03-16 20:54:21,233 - root - INFO - warmup 0
+2025-03-16 20:54:21,233 - root - INFO - optimizer Adam
+2025-03-16 20:54:21,233 - root - INFO - data_loader_config pytorch
+2025-03-16 20:54:21,233 - root - INFO - num_data_workers 0
+2025-03-16 20:54:21,233 - root - INFO - n_in_channels 20
+2025-03-16 20:54:21,233 - root - INFO - n_out_channels 20
+2025-03-16 20:54:21,233 - root - INFO - train_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/train
+2025-03-16 20:54:21,233 - root - INFO - valid_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/valid
+2025-03-16 20:54:21,233 - root - INFO - inf_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/test
+2025-03-16 20:54:21,233 - root - INFO - time_means_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/time_means.npy
+2025-03-16 20:54:21,233 - root - INFO - global_means_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_means.npy
+2025-03-16 20:54:21,233 - root - INFO - global_stds_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_stds.npy
+2025-03-16 20:54:21,233 - root - INFO - ---------------------------------------------------
+2025-03-16 20:54:22,412 - root - INFO - begin data loader initialisation
+2025-03-16 20:54:24,521 - root - INFO - Getting file stats from /scratch/space1/z04/adrianj/mlatscale_coursework/train/1990.h5
+2025-03-16 20:54:24,572 - root - INFO - Overriding total number of samples to: 512
+2025-03-16 20:54:24,572 - root - INFO - Number of samples per year: 1460
+2025-03-16 20:54:24,572 - root - INFO - Found data at path /scratch/space1/z04/adrianj/mlatscale_coursework/train. Number of examples: 512. Image Shape: 360 x 720 x 20
+2025-03-16 20:54:24,576 - root - INFO - Getting file stats from /scratch/space1/z04/adrianj/mlatscale_coursework/valid/2016.h5
+2025-03-16 20:54:24,576 - root - INFO - Overriding total number of samples to: 128
+2025-03-16 20:54:24,577 - root - INFO - Number of samples per year: 1460
+2025-03-16 20:54:24,577 - root - INFO - Found data at path /scratch/space1/z04/adrianj/mlatscale_coursework/valid. Number of examples: 128. Image Shape: 360 x 720 x 20
+2025-03-16 20:54:24,577 - root - INFO - data loader initialised
+2025-03-16 20:54:34,007 - root - INFO - VisionTransformer(
+  (patch_embed): PatchEmbed(
+    (proj): Conv2d(20, 384, kernel_size=(8, 8), stride=(8, 8))
+  )
+  (pos_drop): Dropout(p=0.0, inplace=False)
+  (blocks): ModuleList(
+    (0-5): 6 x Block(
+      (attn): Attention(
+        (qkv): Linear(in_features=384, out_features=1152, bias=True)
+        (q_norm): Identity()
+        (k_norm): Identity()
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=384, out_features=384, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): Identity()
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (norm2): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (mlp): MLP(
+        (fc1): Linear(in_features=384, out_features=1536, bias=True)
+        (act): GELU(approximate='none')
+        (fc2): Linear(in_features=1536, out_features=384, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+  )
+  (norm): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+  (head): Linear(in_features=384, out_features=1280, bias=False)
+)
+2025-03-16 20:54:34,007 - root - INFO - Beginning Training Loop...
+2025-03-16 20:54:57,044 - root - INFO - number of epochs: 4(128,32)
+2025-03-16 20:55:58,610 - root - INFO - Time taken for epoch 1 is 61.549136 sec, avg 8.318557 samples/sec
+2025-03-16 20:55:58,611 - root - INFO -   Avg train loss=0.089940
+2025-03-16 20:56:12,375 - root - INFO -   Avg val loss=0.44469109177589417
+2025-03-16 20:56:12,375 - root - INFO -   Total validation time: 12.085721492767334 sec
+2025-03-16 20:57:09,643 - root - INFO - Time taken for epoch 2 is 57.264445 sec, avg 8.940976 samples/sec
+2025-03-16 20:57:09,644 - root - INFO -   Avg train loss=0.013751
+2025-03-16 20:57:16,621 - root - INFO -   Avg val loss=0.39777570962905884
+2025-03-16 20:57:16,621 - root - INFO -   Total validation time: 5.9602601528167725 sec
+2025-03-16 20:58:13,932 - root - INFO - Time taken for epoch 3 is 57.307408 sec, avg 8.934272 samples/sec
+2025-03-16 20:58:13,933 - root - INFO -   Avg train loss=0.012298
+2025-03-16 20:58:20,862 - root - INFO -   Avg val loss=0.3821197748184204
+2025-03-16 20:58:20,862 - root - INFO -   Total validation time: 5.9236085414886475 sec
+2025-03-16 20:59:18,248 - root - INFO - Time taken for epoch 4 is 57.381959 sec, avg 8.922665 samples/sec
+2025-03-16 20:59:18,248 - root - INFO -   Avg train loss=0.011694
+2025-03-16 20:59:25,122 - root - INFO -   Avg val loss=0.3786877989768982
+2025-03-16 20:59:25,122 - root - INFO -   Total validation time: 5.873530626296997 sec
+2025-03-16 20:59:25,127 - root - INFO - Finished
+Failed to create '/mnt/lustre/e1000/home/mdisspt/mdisspt/mdisspt-s2266011/transformer/training_coursework/transformer_profile.nsys-rep': File exists.
+Use `--force-overwrite true` to overwrite existing files.
+Generating '/dev/shm/mdisspt-s2266011_7304514/nsys-report-f85b.qdstrm'
+[1/1] [0%                          ] nsys-report-a538.nsys-rep[1/1] [0%                          ] nsys-report-a538.nsys-rep[1/1] [13%                         ] nsys-report-a538.nsys-rep[1/1] [12%                         ] nsys-report-a538.nsys-rep[1/1] [11%                         ] nsys-report-a538.nsys-rep[1/1] [12%                         ] nsys-report-a538.nsys-rep[1/1] [11%                         ] nsys-report-a538.nsys-rep[1/1] [10%                         ] nsys-report-a538.nsys-rep[1/1] [11%                         ] nsys-report-a538.nsys-rep[1/1] [10%                         ] nsys-report-a538.nsys-rep[1/1] [11%                         ] nsys-report-a538.nsys-rep[1/1] [=16%                        ] nsys-report-a538.nsys-rep[1/1] [=17%                        ] nsys-report-a538.nsys-rep[1/1] [=16%                        ] nsys-report-a538.nsys-rep[1/1] [=17%                        ] nsys-report-a538.nsys-rep[1/1] [=16%                        ] nsys-report-a538.nsys-rep[1/1] [=17%                        ] nsys-report-a538.nsys-rep[1/1] [==18%                       ] nsys-report-a538.nsys-rep[1/1] [=17%                        ] nsys-report-a538.nsys-rep[1/1] [==19%                       ] nsys-report-a538.nsys-rep[1/1] [==18%                       ] nsys-report-a538.nsys-rep[1/1] [=17%                        ] nsys-report-a538.nsys-rep[1/1] [=16%                        ] nsys-report-a538.nsys-rep[1/1] [==18%                       ] nsys-report-a538.nsys-rep[1/1] [=17%                        ] nsys-report-a538.nsys-rep[1/1] [=16%                        ] nsys-report-a538.nsys-rep[1/1] [=17%                        ] nsys-report-a538.nsys-rep[1/1] [==18%                       ] nsys-report-a538.nsys-rep[1/1] [==19%                       ] nsys-report-a538.nsys-rep[1/1] [==21%                       ] nsys-report-a538.nsys-rep[1/1] [===22%                      ] nsys-report-a538.nsys-rep[1/1] [===23%                      ] nsys-report-a538.nsys-rep[1/1] [===24%                      ] nsys-report-a538.nsys-rep[1/1] [====25%                     ] nsys-report-a538.nsys-rep[1/1] [====27%                     ] nsys-report-a538.nsys-rep[1/1] [====28%                     ] nsys-report-a538.nsys-rep[1/1] [=====29%                    ] nsys-report-a538.nsys-rep[1/1] [=====30%                    ] nsys-report-a538.nsys-rep[1/1] [=====31%                    ] nsys-report-a538.nsys-rep[1/1] [=====32%                    ] nsys-report-a538.nsys-rep[1/1] [======34%                   ] nsys-report-a538.nsys-rep[1/1] [======35%                   ] nsys-report-a538.nsys-rep[1/1] [=======36%                  ] nsys-report-a538.nsys-rep[1/1] [=======37%                  ] nsys-report-a538.nsys-rep[1/1] [=======38%                  ] nsys-report-a538.nsys-rep[1/1] [=======39%                  ] nsys-report-a538.nsys-rep[1/1] [========40%                 ] nsys-report-a538.nsys-rep[1/1] [========41%                 ] nsys-report-a538.nsys-rep[1/1] [========42%                 ] nsys-report-a538.nsys-rep[1/1] [=========43%                ] nsys-report-a538.nsys-rep[1/1] [=========44%                ] nsys-report-a538.nsys-rep[1/1] [=========45%                ] nsys-report-a538.nsys-rep[1/1] [=========46%                ] nsys-report-a538.nsys-rep[1/1] [==========47%               ] nsys-report-a538.nsys-rep[1/1] [==========48%               ] nsys-report-a538.nsys-rep[1/1] [==========49%               ] nsys-report-a538.nsys-rep[1/1] [===========50%              ] nsys-report-a538.nsys-rep[1/1] [===========51%              ] nsys-report-a538.nsys-rep[1/1] [===========52%              ] nsys-report-a538.nsys-rep[1/1] [===========53%              ] nsys-report-a538.nsys-rep[1/1] [============54%             ] nsys-report-a538.nsys-rep[1/1] [============55%             ] nsys-report-a538.nsys-rep[1/1] [============56%             ] nsys-report-a538.nsys-rep[1/1] [============57%             ] nsys-report-a538.nsys-rep[1/1] [=============58%            ] nsys-report-a538.nsys-rep[1/1] [=============59%            ] nsys-report-a538.nsys-rep[1/1] [=============60%            ] nsys-report-a538.nsys-rep[1/1] [==============61%           ] nsys-report-a538.nsys-rep[1/1] [==============63%           ] nsys-report-a538.nsys-rep[1/1] [===============65%          ] nsys-report-a538.nsys-rep[1/1] [===============66%          ] nsys-report-a538.nsys-rep[1/1] [===============67%          ] nsys-report-a538.nsys-rep[1/1] [================68%         ] nsys-report-a538.nsys-rep[1/1] [================69%         ] nsys-report-a538.nsys-rep[1/1] [================70%         ] nsys-report-a538.nsys-rep[1/1] [================71%         ] nsys-report-a538.nsys-rep[1/1] [=================72%        ] nsys-report-a538.nsys-rep[1/1] [=================73%        ] nsys-report-a538.nsys-rep[1/1] [==================75%       ] nsys-report-a538.nsys-rep[1/1] [==================76%       ] nsys-report-a538.nsys-rep[1/1] [==================77%       ] nsys-report-a538.nsys-rep[1/1] [==================78%       ] nsys-report-a538.nsys-rep[1/1] [===================79%      ] nsys-report-a538.nsys-rep[1/1] [===================80%      ] nsys-report-a538.nsys-rep[1/1] [===================82%      ] nsys-report-a538.nsys-rep[1/1] [====================84%     ] nsys-report-a538.nsys-rep[1/1] [====================85%     ] nsys-report-a538.nsys-rep[1/1] [=====================86%    ] nsys-report-a538.nsys-rep[1/1] [=====================87%    ] nsys-report-a538.nsys-rep[1/1] [=====================88%    ] nsys-report-a538.nsys-rep[1/1] [======================90%   ] nsys-report-a538.nsys-rep[1/1] [======================92%   ] nsys-report-a538.nsys-rep[1/1] [=======================93%  ] nsys-report-a538.nsys-rep[1/1] [=======================94%  ] nsys-report-a538.nsys-rep[1/1] [=======================95%  ] nsys-report-a538.nsys-rep[1/1] [=======================96%  ] nsys-report-a538.nsys-rep[1/1] [========================100%] nsys-report-a538.nsys-rep[1/1] [========================100%] nsys-report-a538.nsys-rep
+Generated:
+    /dev/shm/mdisspt-s2266011_7304514/nsys-report-a538.nsys-rep
