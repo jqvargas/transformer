@@ -1,0 +1,130 @@
+Loading python/3.10.8-gpu
+  Loading requirement: nvidia/nvhpc-nompi/22.2 gcc/10.2.0
+    openmpi/4.1.6-cuda-11.6
+2025-03-16 21:40:10,126 - matplotlib - WARNING - Matplotlib created a temporary cache directory at /dev/shm/mdisspt-s2266011_7304543/matplotlib-67bpsmi6 because the default path (/home/mdisspt/mdisspt/mdisspt-s2266011/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+2025-03-16 21:40:11,184 - matplotlib.font_manager - INFO - generated new fontManager
+2025-03-16 21:40:11,558 - root - INFO - ------------------ Configuration ------------------
+2025-03-16 21:40:11,558 - root - INFO - Configuration file: /mnt/lustre/e1000/home/mdisspt/mdisspt/mdisspt-s2266011/transformer/training_coursework/config/coursework_transformer.yaml
+2025-03-16 21:40:11,558 - root - INFO - Configuration name: short
+2025-03-16 21:40:11,558 - root - INFO - limit_nsamples 512
+2025-03-16 21:40:11,558 - root - INFO - limit_nsamples_val 128
+2025-03-16 21:40:11,558 - root - INFO - num_iters 128
+2025-03-16 21:40:11,558 - root - INFO - embed_dim 384
+2025-03-16 21:40:11,558 - root - INFO - depth 6
+2025-03-16 21:40:11,558 - root - INFO - dropout 0.0
+2025-03-16 21:40:11,558 - root - INFO - patch_size 8
+2025-03-16 21:40:11,558 - root - INFO - num_heads 8
+2025-03-16 21:40:11,558 - root - INFO - img_size [360, 720]
+2025-03-16 21:40:11,558 - root - INFO - dt 1
+2025-03-16 21:40:11,558 - root - INFO - global_batch_size 16
+2025-03-16 21:40:11,558 - root - INFO - expdir logs
+2025-03-16 21:40:11,558 - root - INFO - lr_schedule cosine
+2025-03-16 21:40:11,558 - root - INFO - lr 0.0005
+2025-03-16 21:40:11,558 - root - INFO - warmup 0
+2025-03-16 21:40:11,558 - root - INFO - optimizer Adam
+2025-03-16 21:40:11,559 - root - INFO - data_loader_config pytorch
+2025-03-16 21:40:11,559 - root - INFO - num_data_workers 0
+2025-03-16 21:40:11,559 - root - INFO - n_in_channels 20
+2025-03-16 21:40:11,559 - root - INFO - n_out_channels 20
+2025-03-16 21:40:11,559 - root - INFO - train_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/train
+2025-03-16 21:40:11,559 - root - INFO - valid_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/valid
+2025-03-16 21:40:11,559 - root - INFO - inf_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/test
+2025-03-16 21:40:11,559 - root - INFO - time_means_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/time_means.npy
+2025-03-16 21:40:11,559 - root - INFO - global_means_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_means.npy
+2025-03-16 21:40:11,559 - root - INFO - global_stds_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_stds.npy
+2025-03-16 21:40:11,559 - root - INFO - ---------------------------------------------------
+2025-03-16 21:40:12,001 - root - INFO - begin data loader initialisation
+2025-03-16 21:40:12,177 - root - INFO - Getting file stats from /scratch/space1/z04/adrianj/mlatscale_coursework/train/1990.h5
+2025-03-16 21:40:12,178 - root - INFO - Overriding total number of samples to: 512
+2025-03-16 21:40:12,178 - root - INFO - Number of samples per year: 1460
+2025-03-16 21:40:12,178 - root - INFO - Found data at path /scratch/space1/z04/adrianj/mlatscale_coursework/train. Number of examples: 512. Image Shape: 360 x 720 x 20
+2025-03-16 21:40:12,180 - root - INFO - Getting file stats from /scratch/space1/z04/adrianj/mlatscale_coursework/valid/2016.h5
+2025-03-16 21:40:12,181 - root - INFO - Overriding total number of samples to: 128
+2025-03-16 21:40:12,181 - root - INFO - Number of samples per year: 1460
+2025-03-16 21:40:12,181 - root - INFO - Found data at path /scratch/space1/z04/adrianj/mlatscale_coursework/valid. Number of examples: 128. Image Shape: 360 x 720 x 20
+2025-03-16 21:40:12,181 - root - INFO - data loader initialised
+2025-03-16 21:40:14,249 - root - INFO - VisionTransformer(
+  (patch_embed): PatchEmbed(
+    (proj): Conv2d(20, 384, kernel_size=(8, 8), stride=(8, 8))
+  )
+  (pos_drop): Dropout(p=0.0, inplace=False)
+  (blocks): ModuleList(
+    (0-5): 6 x Block(
+      (attn): Attention(
+        (qkv): Linear(in_features=384, out_features=1152, bias=True)
+        (q_norm): Identity()
+        (k_norm): Identity()
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=384, out_features=384, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): Identity()
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (norm2): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (mlp): MLP(
+        (fc1): Linear(in_features=384, out_features=1536, bias=True)
+        (act): GELU(approximate='none')
+        (fc2): Linear(in_features=1536, out_features=384, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+  )
+  (norm): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+  (head): Linear(in_features=384, out_features=1280, bias=False)
+)
+2025-03-16 21:40:14,250 - root - INFO - Beginning Training Loop...
+2025-03-16 21:40:18,529 - root - INFO - number of epochs: 4(128,32)
+2025-03-16 21:41:17,177 - root - INFO - Time taken for epoch 1 is 58.648169 sec, avg 8.730025 samples/sec
+2025-03-16 21:41:17,178 - root - INFO -   Avg train loss=0.090133
+2025-03-16 21:41:25,429 - root - INFO -   Avg val loss=0.44314315915107727
+2025-03-16 21:41:25,429 - root - INFO -   Total validation time: 7.194590091705322 sec
+2025-03-16 21:42:22,614 - root - INFO - Time taken for epoch 2 is 57.180182 sec, avg 8.954151 samples/sec
+2025-03-16 21:42:22,614 - root - INFO -   Avg train loss=0.013629
+2025-03-16 21:42:29,599 - root - INFO -   Avg val loss=0.3990997076034546
+2025-03-16 21:42:29,599 - root - INFO -   Total validation time: 5.9569385051727295 sec
+2025-03-16 21:43:26,825 - root - INFO - Time taken for epoch 3 is 57.221017 sec, avg 8.947761 samples/sec
+2025-03-16 21:43:26,825 - root - INFO -   Avg train loss=0.012288
+2025-03-16 21:43:33,729 - root - INFO -   Avg val loss=0.3815550208091736
+2025-03-16 21:43:33,729 - root - INFO -   Total validation time: 5.901940822601318 sec
+2025-03-16 21:44:31,094 - root - INFO - Time taken for epoch 4 is 57.360348 sec, avg 8.926027 samples/sec
+2025-03-16 21:44:31,094 - root - INFO -   Avg train loss=0.011682
+2025-03-16 21:44:37,980 - root - INFO -   Avg val loss=0.37802654504776
+2025-03-16 21:44:37,980 - root - INFO -   Total validation time: 5.870919704437256 sec
+2025-03-16 21:44:37,985 - root - INFO - Finished
+Generating '/dev/shm/mdisspt-s2266011_7304543/nsys-report-b772.qdstrm'
+[1/1] [0%                          ] transformer_profile.nsys-rep[1/1] [0%                          ] transformer_profile.nsys-rep[1/1] [5%                          ] transformer_profile.nsys-rep[1/1] [6%                          ] transformer_profile.nsys-rep[1/1] [5%                          ] transformer_profile.nsys-rep[1/1] [6%                          ] transformer_profile.nsys-rep[1/1] [7%                          ] transformer_profile.nsys-rep[1/1] [6%                          ] transformer_profile.nsys-rep[1/1] [7%                          ] transformer_profile.nsys-rep[1/1] [8%                          ] transformer_profile.nsys-rep[1/1] [7%                          ] transformer_profile.nsys-rep[1/1] [6%                          ] transformer_profile.nsys-rep[1/1] [==19%                       ] transformer_profile.nsys-rep[1/1] [==18%                       ] transformer_profile.nsys-rep[1/1] [=17%                        ] transformer_profile.nsys-rep[1/1] [=16%                        ] transformer_profile.nsys-rep[1/1] [=15%                        ] transformer_profile.nsys-rep[1/1] [14%                         ] transformer_profile.nsys-rep[1/1] [13%                         ] transformer_profile.nsys-rep[1/1] [12%                         ] transformer_profile.nsys-rep[1/1] [14%                         ] transformer_profile.nsys-rep[1/1] [13%                         ] transformer_profile.nsys-rep[1/1] [12%                         ] transformer_profile.nsys-rep[1/1] [13%                         ] transformer_profile.nsys-rep[1/1] [12%                         ] transformer_profile.nsys-rep[1/1] [13%                         ] transformer_profile.nsys-rep[1/1] [12%                         ] transformer_profile.nsys-rep[1/1] [13%                         ] transformer_profile.nsys-rep[1/1] [14%                         ] transformer_profile.nsys-rep[1/1] [=16%                        ] transformer_profile.nsys-rep[1/1] [=17%                        ] transformer_profile.nsys-rep[1/1] [==19%                       ] transformer_profile.nsys-rep[1/1] [==20%                       ] transformer_profile.nsys-rep[1/1] [==21%                       ] transformer_profile.nsys-rep[1/1] [===22%                      ] transformer_profile.nsys-rep[1/1] [===24%                      ] transformer_profile.nsys-rep[1/1] [====25%                     ] transformer_profile.nsys-rep[1/1] [====26%                     ] transformer_profile.nsys-rep[1/1] [====27%                     ] transformer_profile.nsys-rep[1/1] [=====29%                    ] transformer_profile.nsys-rep[1/1] [=====30%                    ] transformer_profile.nsys-rep[1/1] [=====32%                    ] transformer_profile.nsys-rep[1/1] [======33%                   ] transformer_profile.nsys-rep[1/1] [======34%                   ] transformer_profile.nsys-rep[1/1] [======35%                   ] transformer_profile.nsys-rep[1/1] [=======36%                  ] transformer_profile.nsys-rep[1/1] [=======37%                  ] transformer_profile.nsys-rep[1/1] [=======38%                  ] transformer_profile.nsys-rep[1/1] [=======39%                  ] transformer_profile.nsys-rep[1/1] [========40%                 ] transformer_profile.nsys-rep[1/1] [========41%                 ] transformer_profile.nsys-rep[1/1] [========42%                 ] transformer_profile.nsys-rep[1/1] [=========43%                ] transformer_profile.nsys-rep[1/1] [=========44%                ] transformer_profile.nsys-rep[1/1] [=========45%                ] transformer_profile.nsys-rep[1/1] [=========46%                ] transformer_profile.nsys-rep[1/1] [==========47%               ] transformer_profile.nsys-rep[1/1] [==========48%               ] transformer_profile.nsys-rep[1/1] [==========49%               ] transformer_profile.nsys-rep[1/1] [===========50%              ] transformer_profile.nsys-rep[1/1] [===========51%              ] transformer_profile.nsys-rep[1/1] [===========52%              ] transformer_profile.nsys-rep[1/1] [===========53%              ] transformer_profile.nsys-rep[1/1] [============54%             ] transformer_profile.nsys-rep[1/1] [============55%             ] transformer_profile.nsys-rep[1/1] [============56%             ] transformer_profile.nsys-rep[1/1] [============57%             ] transformer_profile.nsys-rep[1/1] [=============59%            ] transformer_profile.nsys-rep[1/1] [=============60%            ] transformer_profile.nsys-rep[1/1] [==============62%           ] transformer_profile.nsys-rep[1/1] [==============63%           ] transformer_profile.nsys-rep[1/1] [==============64%           ] transformer_profile.nsys-rep[1/1] [===============65%          ] transformer_profile.nsys-rep[1/1] [===============66%          ] transformer_profile.nsys-rep[1/1] [===============67%          ] transformer_profile.nsys-rep[1/1] [================68%         ] transformer_profile.nsys-rep[1/1] [================70%         ] transformer_profile.nsys-rep[1/1] [=================72%        ] transformer_profile.nsys-rep[1/1] [=================73%        ] transformer_profile.nsys-rep[1/1] [=================74%        ] transformer_profile.nsys-rep[1/1] [==================75%       ] transformer_profile.nsys-rep[1/1] [==================76%       ] transformer_profile.nsys-rep[1/1] [==================77%       ] transformer_profile.nsys-rep[1/1] [==================78%       ] transformer_profile.nsys-rep[1/1] [===================79%      ] transformer_profile.nsys-rep[1/1] [===================80%      ] transformer_profile.nsys-rep[1/1] [===================82%      ] transformer_profile.nsys-rep
+Importer error status: Importation failed.
+Import Failed with unexpected exception: /dvs/p4/build/sw/devtools/Agora/Rel/QuadD_Main/QuadD/Host/QdstrmImporter/main.cpp(34): Throw in function {anonymous}::Importer::Importer(const boost::filesystem::path&, const boost::filesystem::path&)
+Dynamic exception type: boost::wrapexcept<QuadDCommon::RuntimeException>
+std::exception::what: RuntimeException
+[QuadDCommon::tag_message*] = Status: AnalysisFailed
+Error {
+  Type: RuntimeError
+  SubError {
+    Type: InvalidArgument
+    Props {
+      Items {
+        Type: OriginalExceptionClass
+        Value: "N5boost10wrapexceptIN11QuadDCommon24InvalidArgumentExceptionEEE"
+      }
+      Items {
+        Type: OriginalFile
+        Value: "/dvs/p4/build/sw/devtools/Agora/Rel/QuadD_Main/QuadD/Host/Analysis/Modules/EventCollection.cpp"
+      }
+      Items {
+        Type: OriginalLine
+        Value: "1055"
+      }
+      Items {
+        Type: OriginalFunction
+        Value: "void QuadDAnalysis::EventCollection::CheckOrder(QuadDAnalysis::EventCollectionHelper::EventContainer&, const QuadDAnalysis::ConstEvent&) const"
+      }
+      Items {
+        Type: ErrorText
+        Value: "Wrong event order has been detected when adding events to the collection:\nnew event ={ StartNs=115801445682 StopNs=115801446917 GlobalId=346519995361488 Event={ TraceProcessEvent=[{ Correlation=318106 EventClass=0 TextId=14524 ReturnValue=600 },] } Type=48 }\nlast event ={ StartNs=170001353956 StopNs=170001355405 GlobalId=346519995361488 Event={ TraceProcessEvent=[{ Correlation=475597 EventClass=0 TextId=14524 ReturnValue=600 },] } Type=48 }"
+      }
+    }
+  }
+}
+Generated:
+    /mnt/lustre/e1000/home/mdisspt/mdisspt/mdisspt-s2266011/transformer/training_coursework/transformer_profile.qdstrm
