@@ -1,0 +1,93 @@
+Loading python/3.10.8-gpu
+  Loading requirement: nvidia/nvhpc-nompi/22.2 gcc/10.2.0
+    openmpi/4.1.6-cuda-11.6
+2025-03-16 01:44:09,923 - matplotlib - WARNING - Matplotlib created a temporary cache directory at /dev/shm/mdisspt-s2266011_7302959/matplotlib-youtzuav because the default path (/home/mdisspt/mdisspt/mdisspt-s2266011/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+2025-03-16 01:44:12,552 - matplotlib.font_manager - INFO - generated new fontManager
+2025-03-16 01:44:12,960 - root - INFO - ------------------ Configuration ------------------
+2025-03-16 01:44:12,976 - root - INFO - Configuration file: /mnt/lustre/e1000/home/mdisspt/mdisspt/mdisspt-s2266011/transformer/training_coursework/config/coursework_transformer.yaml
+2025-03-16 01:44:12,976 - root - INFO - Configuration name: short
+2025-03-16 01:44:12,976 - root - INFO - limit_nsamples 512
+2025-03-16 01:44:12,976 - root - INFO - limit_nsamples_val 128
+2025-03-16 01:44:12,976 - root - INFO - num_iters 128
+2025-03-16 01:44:12,976 - root - INFO - embed_dim 384
+2025-03-16 01:44:12,976 - root - INFO - depth 6
+2025-03-16 01:44:12,976 - root - INFO - dropout 0.0
+2025-03-16 01:44:12,976 - root - INFO - patch_size 8
+2025-03-16 01:44:12,976 - root - INFO - num_heads 8
+2025-03-16 01:44:12,976 - root - INFO - img_size [360, 720]
+2025-03-16 01:44:12,976 - root - INFO - dt 1
+2025-03-16 01:44:12,976 - root - INFO - global_batch_size 16
+2025-03-16 01:44:12,977 - root - INFO - expdir logs
+2025-03-16 01:44:12,977 - root - INFO - lr_schedule cosine
+2025-03-16 01:44:12,977 - root - INFO - lr 0.0005
+2025-03-16 01:44:12,977 - root - INFO - warmup 0
+2025-03-16 01:44:12,977 - root - INFO - optimizer Adam
+2025-03-16 01:44:12,977 - root - INFO - data_loader_config pytorch
+2025-03-16 01:44:12,977 - root - INFO - num_data_workers 0
+2025-03-16 01:44:12,977 - root - INFO - n_in_channels 20
+2025-03-16 01:44:12,977 - root - INFO - n_out_channels 20
+2025-03-16 01:44:12,977 - root - INFO - train_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/train
+2025-03-16 01:44:12,977 - root - INFO - valid_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/valid
+2025-03-16 01:44:12,977 - root - INFO - inf_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/test
+2025-03-16 01:44:12,977 - root - INFO - time_means_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/time_means.npy
+2025-03-16 01:44:12,977 - root - INFO - global_means_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_means.npy
+2025-03-16 01:44:12,977 - root - INFO - global_stds_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_stds.npy
+2025-03-16 01:44:12,977 - root - INFO - ---------------------------------------------------
+2025-03-16 01:44:12,981 - root - INFO - begin data loader initialisation
+2025-03-16 01:44:13,109 - root - INFO - Getting file stats from /scratch/space1/z04/adrianj/mlatscale_coursework/train/1990.h5
+2025-03-16 01:44:13,110 - root - INFO - Overriding total number of samples to: 512
+2025-03-16 01:44:13,110 - root - INFO - Number of samples per year: 1460
+2025-03-16 01:44:13,110 - root - INFO - Found data at path /scratch/space1/z04/adrianj/mlatscale_coursework/train. Number of examples: 512. Image Shape: 360 x 720 x 20
+2025-03-16 01:44:14,080 - root - INFO - Getting file stats from /scratch/space1/z04/adrianj/mlatscale_coursework/valid/2016.h5
+2025-03-16 01:44:14,081 - root - INFO - Overriding total number of samples to: 128
+2025-03-16 01:44:14,081 - root - INFO - Number of samples per year: 1460
+2025-03-16 01:44:14,081 - root - INFO - Found data at path /scratch/space1/z04/adrianj/mlatscale_coursework/valid. Number of examples: 128. Image Shape: 360 x 720 x 20
+2025-03-16 01:44:14,081 - root - INFO - data loader initialised
+2025-03-16 01:44:18,970 - root - INFO - VisionTransformer(
+  (patch_embed): PatchEmbed(
+    (proj): Conv2d(20, 384, kernel_size=(8, 8), stride=(8, 8))
+  )
+  (pos_drop): Dropout(p=0.0, inplace=False)
+  (blocks): ModuleList(
+    (0-5): 6 x Block(
+      (attn): Attention(
+        (qkv): Linear(in_features=384, out_features=1152, bias=True)
+        (q_norm): Identity()
+        (k_norm): Identity()
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=384, out_features=384, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): Identity()
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (norm2): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (mlp): MLP(
+        (fc1): Linear(in_features=384, out_features=1536, bias=True)
+        (act): GELU(approximate='none')
+        (fc2): Linear(in_features=1536, out_features=384, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+  )
+  (norm): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+  (head): Linear(in_features=384, out_features=1280, bias=False)
+)
+2025-03-16 01:44:18,971 - root - INFO - Beginning Training Loop...
+2025-03-16 01:44:32,002 - root - INFO - number of epochs: 4(128,32)
+2025-03-16 01:45:55,825 - root - INFO - Time taken for epoch 1 is 83.815522 sec, avg 6.108654 samples/sec
+2025-03-16 01:45:55,836 - root - INFO -   Avg train loss=0.568803
+2025-03-16 01:46:07,486 - root - INFO -   Avg val loss=0.41132187843322754
+2025-03-16 01:46:07,486 - root - INFO -   Total validation time: 9.559448003768921 sec
+2025-03-16 01:47:26,360 - root - INFO - Time taken for epoch 2 is 78.869921 sec, avg 6.491702 samples/sec
+2025-03-16 01:47:26,361 - root - INFO -   Avg train loss=0.378874
+2025-03-16 01:47:33,106 - root - INFO -   Avg val loss=0.36347687244415283
+2025-03-16 01:47:33,107 - root - INFO -   Total validation time: 5.75177526473999 sec
+2025-03-16 01:48:52,044 - root - INFO - Time taken for epoch 3 is 78.933211 sec, avg 6.486497 samples/sec
+2025-03-16 01:48:52,045 - root - INFO -   Avg train loss=0.346335
+2025-03-16 01:48:58,778 - root - INFO -   Avg val loss=0.34568193554878235
+2025-03-16 01:48:58,779 - root - INFO -   Total validation time: 5.736820697784424 sec
+2025-03-16 01:50:17,744 - root - INFO - Time taken for epoch 4 is 78.961133 sec, avg 6.484203 samples/sec
+2025-03-16 01:50:17,745 - root - INFO -   Avg train loss=0.336919
+2025-03-16 01:50:24,463 - root - INFO -   Avg val loss=0.3428351879119873
+2025-03-16 01:50:24,463 - root - INFO -   Total validation time: 5.720555543899536 sec
+2025-03-16 01:50:24,469 - root - INFO - Finished

@@ -206,3 +206,91 @@
 2025-03-16 01:50:24,463 - root - INFO -   Avg val loss=0.3428351879119873
 2025-03-16 01:50:24,463 - root - INFO -   Total validation time: 5.720555543899536 sec
 2025-03-16 01:50:24,469 - root - INFO - Finished
+2025-03-16 02:45:51,021 - root - INFO - ------------------ Configuration ------------------
+2025-03-16 02:45:51,035 - root - INFO - Configuration file: /mnt/lustre/e1000/home/mdisspt/mdisspt/mdisspt-s2266011/transformer/training_coursework/config/coursework_transformer.yaml
+2025-03-16 02:45:51,035 - root - INFO - Configuration name: short
+2025-03-16 02:45:51,035 - root - INFO - limit_nsamples 512
+2025-03-16 02:45:51,035 - root - INFO - limit_nsamples_val 128
+2025-03-16 02:45:51,035 - root - INFO - num_iters 128
+2025-03-16 02:45:51,035 - root - INFO - embed_dim 384
+2025-03-16 02:45:51,035 - root - INFO - depth 6
+2025-03-16 02:45:51,035 - root - INFO - dropout 0.0
+2025-03-16 02:45:51,035 - root - INFO - patch_size 8
+2025-03-16 02:45:51,035 - root - INFO - num_heads 8
+2025-03-16 02:45:51,035 - root - INFO - img_size [360, 720]
+2025-03-16 02:45:51,035 - root - INFO - dt 1
+2025-03-16 02:45:51,035 - root - INFO - global_batch_size 16
+2025-03-16 02:45:51,035 - root - INFO - expdir logs
+2025-03-16 02:45:51,036 - root - INFO - lr_schedule cosine
+2025-03-16 02:45:51,036 - root - INFO - lr 0.0005
+2025-03-16 02:45:51,036 - root - INFO - warmup 0
+2025-03-16 02:45:51,036 - root - INFO - optimizer Adam
+2025-03-16 02:45:51,036 - root - INFO - data_loader_config pytorch
+2025-03-16 02:45:51,036 - root - INFO - num_data_workers 0
+2025-03-16 02:45:51,036 - root - INFO - n_in_channels 20
+2025-03-16 02:45:51,036 - root - INFO - n_out_channels 20
+2025-03-16 02:45:51,036 - root - INFO - train_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/train
+2025-03-16 02:45:51,036 - root - INFO - valid_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/valid
+2025-03-16 02:45:51,036 - root - INFO - inf_data_path /scratch/space1/z04/adrianj/mlatscale_coursework/test
+2025-03-16 02:45:51,036 - root - INFO - time_means_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/time_means.npy
+2025-03-16 02:45:51,036 - root - INFO - global_means_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_means.npy
+2025-03-16 02:45:51,036 - root - INFO - global_stds_path /scratch/space1/z04/adrianj/mlatscale_coursework/stats/global_stds.npy
+2025-03-16 02:45:51,036 - root - INFO - ---------------------------------------------------
+2025-03-16 02:45:51,045 - root - INFO - begin data loader initialisation
+2025-03-16 02:45:53,415 - root - INFO - Getting file stats from /scratch/space1/z04/adrianj/mlatscale_coursework/train/1990.h5
+2025-03-16 02:45:53,552 - root - INFO - Overriding total number of samples to: 512
+2025-03-16 02:45:53,552 - root - INFO - Number of samples per year: 1460
+2025-03-16 02:45:53,552 - root - INFO - Found data at path /scratch/space1/z04/adrianj/mlatscale_coursework/train. Number of examples: 512. Image Shape: 360 x 720 x 20
+2025-03-16 02:45:53,917 - root - INFO - Getting file stats from /scratch/space1/z04/adrianj/mlatscale_coursework/valid/2016.h5
+2025-03-16 02:45:53,918 - root - INFO - Overriding total number of samples to: 128
+2025-03-16 02:45:53,918 - root - INFO - Number of samples per year: 1460
+2025-03-16 02:45:53,918 - root - INFO - Found data at path /scratch/space1/z04/adrianj/mlatscale_coursework/valid. Number of examples: 128. Image Shape: 360 x 720 x 20
+2025-03-16 02:45:53,919 - root - INFO - data loader initialised
+2025-03-16 02:46:03,277 - root - INFO - VisionTransformer(
+  (patch_embed): PatchEmbed(
+    (proj): Conv2d(20, 384, kernel_size=(8, 8), stride=(8, 8))
+  )
+  (pos_drop): Dropout(p=0.0, inplace=False)
+  (blocks): ModuleList(
+    (0-5): 6 x Block(
+      (attn): Attention(
+        (qkv): Linear(in_features=384, out_features=1152, bias=True)
+        (q_norm): Identity()
+        (k_norm): Identity()
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=384, out_features=384, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): Identity()
+      (norm1): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (norm2): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+      (mlp): MLP(
+        (fc1): Linear(in_features=384, out_features=1536, bias=True)
+        (act): GELU(approximate='none')
+        (fc2): Linear(in_features=1536, out_features=384, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+  )
+  (norm): LayerNorm((384,), eps=1e-06, elementwise_affine=True)
+  (head): Linear(in_features=384, out_features=1280, bias=False)
+)
+2025-03-16 02:46:03,278 - root - INFO - Beginning Training Loop...
+2025-03-16 02:46:24,544 - root - INFO - number of epochs: 4(128,32)
+2025-03-16 02:47:50,915 - root - INFO - Time taken for epoch 1 is 86.356482 sec, avg 5.928912 samples/sec
+2025-03-16 02:47:50,916 - root - INFO -   Avg train loss=0.568239
+2025-03-16 02:48:04,027 - root - INFO -   Avg val loss=0.41138672828674316
+2025-03-16 02:48:04,028 - root - INFO -   Total validation time: 11.398985385894775 sec
+2025-03-16 02:49:24,894 - root - INFO - Time taken for epoch 2 is 80.860353 sec, avg 6.331904 samples/sec
+2025-03-16 02:49:24,894 - root - INFO -   Avg train loss=0.380100
+2025-03-16 02:49:32,166 - root - INFO -   Avg val loss=0.36366820335388184
+2025-03-16 02:49:32,166 - root - INFO -   Total validation time: 6.261419773101807 sec
+2025-03-16 02:50:52,994 - root - INFO - Time taken for epoch 3 is 80.823369 sec, avg 6.334801 samples/sec
+2025-03-16 02:50:52,994 - root - INFO -   Avg train loss=0.346943
+2025-03-16 02:51:00,366 - root - INFO -   Avg val loss=0.34614136815071106
+2025-03-16 02:51:00,367 - root - INFO -   Total validation time: 6.357175588607788 sec
+2025-03-16 02:52:21,374 - root - INFO - Time taken for epoch 4 is 81.003868 sec, avg 6.320686 samples/sec
+2025-03-16 02:52:21,374 - root - INFO -   Avg train loss=0.337154
+2025-03-16 02:52:28,681 - root - INFO -   Avg val loss=0.34318774938583374
+2025-03-16 02:52:28,681 - root - INFO -   Total validation time: 6.2851033210754395 sec
+2025-03-16 02:52:28,686 - root - INFO - Finished
